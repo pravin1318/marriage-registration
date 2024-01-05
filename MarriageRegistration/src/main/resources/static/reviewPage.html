@@ -1,0 +1,28 @@
+ <div class="container">
+							<h2>Final Review</h2>
+							<p>Name: {{ reviewedPerson.firstname }}</p>
+							<p>Photo: <img id="uploadedImage2" name="im" src="" alt="Uploaded Image" width="80px"
+									height="100px"> </p>
+							<p>Date of Birth: {{reviewedPerson.dob | date:'dd-MM-yyyy'}}</p>
+							<p>Age: {{reviewedPerson.age }}</p>
+							<p>Email: {{ reviewedPerson.email }}</p>
+							<p>Mobile: {{reviewedPerson.mobileno}}</p>
+							<p>Marritalstatus: {{reviewedPerson.marritalstatus}}</p>
+							<p>Area: {{reviewedPerson.area}}</p>
+							<div ng-show="formData.area ==='Rural'">
+								<p>Dist: {{reviewedPerson.district}}</p>
+								<p>Block: {{reviewedPerson.block}}</p>
+								<p>Village: {{reviewedPerson.village}}</p>
+							</div>
+							<div ng-show="formData.area==='Urban'">
+								<p>Dist: {{reviewedPerson.district}}</p>
+								<p>City: {{reviewedPerson.city}}</p>
+							</div>
+
+
+
+							<!-- Add more fields as needed -->
+							<a class="btn btn-info col-1" ng-click="closeReview()">Close</a>
+							<button type="submit" ng-click="toggleContent3()" class="btn btn-info col-2">Final
+								Submit</button>
+						</div>

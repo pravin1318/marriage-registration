@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="mymodule" ng-controller="mycontroller">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+	<!--<script src="scriptfile/script.js"></script>-->
+
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/sweetalert2/6.3.8/sweetalert2.min.css">
+	<script src="https://cdn.jsdelivr.net/sweetalert2/6.3.8/sweetalert2.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.6/ui-bootstrap-tpls.min.js"></script>
+
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+		integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+	<title>Marriage Registration</title>
+	<style>
+		/* Add these styles directly in the head section */
+		.table {
+			width: 100%;
+			border-collapse: collapse;
+			margin-top: 20px;
+		}
+
+		.error {
+			color: red;
+		}
+
+		.table th,
+		.table td {
+			border: 1px solid #ddd;
+			padding: 8px;
+			text-align: left;
+		}
+
+		.table th {
+			background-color: #f2f2f2;
+		}
+
+		.table img {
+			max-width: 100%;
+			height: auto;
+			border-radius: 50%;
+			/* Make the image circular if needed */
+		}
+
+		/* Optional: Add responsive styles for smaller screens */
+		@media (max-width: 767px) {
+
+			.table th,
+			.table td {
+				display: block;
+				width: 100%;
+				box-sizing: border-box;
+			}
+
+			.table th {
+				text-align: center;
+			}
+
+			.table img {
+				margin: 10px auto;
+				display: block;
+			}
+
+
+		}
+
+		input.transparent-input {
+			background-color: rgb(255, 255, 255, 0.6) !important;
+			border: none !important;
+		}
+
+		.container1 {
+			background-color: rgba(0, 0, 0, .5)
+		}
+
+		#nava {
+			background-color: rgba(0, 0, 0, .8);
+			color: antiquewhite;
+		}
+	</style>
+
+
+
+</head>
+
+<body style="background-image: url('https://img.freepik.com/free-photo/hands-indian-bride-groom-intertwined-together-making-authentic-wedding-ritual_8353-10047.jpg?w=996&t=st=1703851945~exp=1703852545~hmac=619fdc7d17083bdc269b295d98181b0d1720f1132ceb34ad957cdc2c4d2eadae');background-repeat: no-repeat;
+  background-attachment: fixed;background-size: cover; font-weight: 600;  ">
+
+
+	<div class="container-fluid p-0 m-0">
+		<nav class="navbar navbar-expand-lg navbar-dark   purple" id="nava">
+			<a class="navbar-brand" href="" ng-click="toggletable2()">Registration</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+				aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item active">
+						<a class="nav-link" href="/home">Home <span class="sr-only">(current)</span></a>
+					</li>
+
+					<li class="nav-item">
+						<a class="nav-link" href="/table">Show Registration</a>
+					</li>
+				</ul>
+			</div>
+
+		</nav>
+
+		<div class="container align-content-center" style="margin-top: 1%; margin-bottom: 1%; ">
+
+			<div ng-show="fullpage" class="container1 col-md-8 offset-md-2" style="color:#f2f2f2 ">
+				<div class=" ">
+
+					<h1 align="center">Marriage Registration</h1>
+					<hr>
+					<div class="">
+						<form ng-submit="confirmSubmit()" action="/upload" method="post" enctype="multipart/form-data"
+							id="registrationForm" name="registrationForm">
+							<div ng-show="show">
+								<div class="row">
+									<div class="col-md-6 ">
+										<lable>Name</lable>
+										<input type="text" class="form-control transparent-input mb-4 " id="firstname"
+											name="firstname" placeholder="Name" ng-model="formData.firstname"
+											pattern="^[A-Za-z\s]{2,30}$" maxlength="50"
+											title="Name must be at least 2 characters" required>
+										<span class="error"
+											ng-show="registrationForm.firstname.$dirty && registrationForm.firstname.$error.required ">Name
+											is required !</span>
+										<span class="error"
+											ng-show="registrationForm.firstname.$dirty && registrationForm.firstname.$error.pattern">
+											Please enter a valid Format (First letter should be capital , Characters and
+											space only).
+										</span>
+									</div>
+									<div class="col-md-6">
+										<lable>Email</lable>
+										<input type="email" name="email" maxlength="50" ng-model="formData.email"
+											id="email" placeholder="Email" class="form-control transparent-input mb-4 "
+											ng-pattern="/^([a-zA-Z0-9._%+-]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,}|[a-zA-Z0-9._%+-]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,}\.[a-zA-Z]{2,})$/"
+											required>
+										<span class="error"
+											ng-show="registrationForm.email.$dirty && registrationForm.email.$error.required ">Email
+											is required !</span>
+										<span class="error"
+											ng-show="registrationForm.email.$dirty && registrationForm.email.$error.pattern">
+											Please enter a valid Email (Example. xyz@xyz.xyz ).
+										</span>
+
+
+									</div>
+
+
+								</div>
+
+								<div class="row">
+									<div class="col-md-6">
+
+										<lable>Date of Birth</lable>
+										<input type="date" ng-model="formData.dob" name="dob" id="dob"
+											ng-change="calculateAge()" placeholder="Date of Birth"
+											class="form-control transparent-input mb-4" min="1960-01-01"
+											max="{{ getCurrentDate() }}" required>
+										<span class="error"
+											ng-show="registrationForm.dob.$dirty && registrationForm.dob.$error.required ">Date
+											Of Birth is Required !</span>
+
+
+
+									</div>
+									<div class="col-md-6">
+										<label>Age:</label>
+										<input type="text" name="age" id="age" ng-model="formData.age"
+											class="form-control transparent-input mb-4" placeholder="Age"
+											readonly /><span class="error" ng-show="isUnderage">
+
+											<p>Age should be greater than or equal to 21.</p>
+										</span>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-md-6">
+										<lable>Mobile No.</lable>
+										<input type="tel" name="mobileno" maxlength="10" ng-model="formData.mobileno"
+											id="mobileno" placeholder="Mobile No."
+											class="form-control transparent-input mb-4" pattern="^[6-9]\d{9}$" required>
+										<span class="error"
+											ng-show="registrationForm.mobileno.$dirty && registrationForm.mobileno.$error.required ">Email
+											is required !</span>
+										<span class="error"
+											ng-show="registrationForm.mobileno.$dirty && registrationForm.mobileno.$error.pattern">
+											Please enter a valid Mobile No (Starting from 6-9 and must be 10 digits).
+										</span>
+
+									</div>
+
+									<div class="col-md-6">
+										<lable>Marital Status: </lable>
+										<select id="marritalstatus" ng-model="formData.marritalstatus"
+											name="marritalstatus" class="form-control  col-6" required>
+											<option value="" disabled="disabled">Select Status</option>
+											<option value="Single">Single</option>
+											<option value="Married">Married</option>
+											<option value="Divorced">Divorced</option>
+										</select>
+										<span class="error"
+											ng-show="registrationForm.marritalstatus.$dirty && registrationForm.marritalstatus.$error.required ">Marrital
+											Status is required !</span>
+									</div>
+
+
+
+								</div>
+<span class="form-group ">
+									
+
+										<label for="image">Choose an image:</label>
+										<input type="file" ng-model="imageFile" name="image" id="image23"
+											style="display: none;" accept="image/*"
+											onchange="angular.element(this).scope().updateImagePreview(this)">
+										<a class="btn btn" id="nava" href="" ng-click="selectImage()">Select Image</a>
+
+								
+										<span ng-show="o" class="col-6">
+											<img ng-src="{{imagePreview}}" alt="Image Preview"
+												style="max-width: 100px; max-height: 300px;">
+										</span>
+
+										<!--<a class="btn btn-warning" ng-model="formData.but" ng-click="showimg()" name="but" >Show
+									Image</a>-->
+										
+									
+</span>
+
+
+
+								<div class="row">
+
+									<div class="col-md-6"><br>
+
+										<label>Gender: </label>
+										<input type="radio" class="" ng-model="formData.gender" id="option11"
+											name="optionsg" value="Male" required>
+										<label for="option111">Male</label>
+
+										<input type="radio" class="" ng-model="formData.gender" id="option22"
+											name="optionsg" value="Female" required>
+										<label for="222">Female</label>
+									</div>
+
+
+								</div>
+						
+								<br>
+								<div>
+									<div class="">
+										<label>Area: </label>
+										<input type="radio" class="" ng-model="formData.area" id="option1"
+											name="options" value="Rural" ng-click="toggleContent()" required>
+										<label for="option1111">Rural</label>
+
+										<input type="radio" class="" ng-model="formData.area" id="option2"
+											name="options" value="Urban" ng-click="toggleContent2()" required>
+										<label for="option2222">Urban</label>
+
+										<span class="error"
+											ng-show="registrationForm.options.$dirty && registrationForm.options.$error.required ">Area
+											is required !</span>
+
+
+									</div>
+								
+
+									
+											<div ng-if="showExtraFieldrural" class="row">
+
+
+												<div class="col-md-6">
+													<label>District:</label>
+													<select class="form-control transparent-input  "
+														ng-model="formData.district"
+														ng-options="district for district in ruralDistricts"
+														name="district" required>
+														<option value="" disabled>Select District</option>
+													</select><span class="error"
+														ng-show="registrationForm.district.$dirty && registrationForm.district.$error.required ">District
+														is required !</span>
+												</div>
+												<div class="col-md-6">
+													<label>Block:</label>
+													<select class="form-control transparent-input"
+														ng-model="formData.block"
+														ng-options="block for block in ruralBlocks[formData.district]"
+														name="block" required>
+														<option value="" disabled>Select Block</option>
+													</select><span class="error"
+														ng-show="registrationForm.block.$dirty && registrationForm.block.$error.required ">Block
+														is required !</span>
+												</div>
+												<div class="col-md-6">
+													<label>Village:</label>
+													<input type="text" class="form-control transparent-input"
+														ng-model="formData.village" maxlength="32" name="village"
+														autofocus="autofocus"
+														pattern="^[A-Za-z\s]{2,30}$" required><span
+														class="error"
+														ng-show="registrationForm.village.$dirty && registrationForm.village.$error.required ">Village
+														is required !</span><span class="error"
+														ng-show="registrationForm.village.$dirty && registrationForm.village.$error.pattern">
+														Please enter a valid Format (First letter should be capital ,
+														Characters and space only).
+													</span>
+												</div>
+											</div>
+											<div ng-if="showExtraFieldurban" class="row">
+
+
+
+												<div class="col-md-6">
+													<label>District:</label>
+													<select class="form-control transparent-input "
+														ng-model="formData.district"
+														ng-options="district for district in urbanDistricts" required>
+														<option value="" disabled>Select District</option>
+													</select>
+												</div>
+												<div class="col-md-6">
+													<label>City:</label>
+													<select class="form-control transparent-input "
+														ng-model="formData.city"
+														ng-options="city for city in urbanCities[formData.district]"
+														required>
+														<option value="" disabled>Select City</option>
+													</select>
+												</div>
+												<div class="col-md-6">
+													<label>Locality:</label>
+													<input type="text" class="form-control transparent-input"
+														ng-model="formData.locality" maxlength="32" name="locality"
+														pattern="^[A-Za-z\s]{2,30}$" required>
+													<span class="error"
+														ng-show="registrationForm.locality.$dirty && registrationForm.locality.$error.required ">Locality
+														is required !</span>
+													<span class="error"
+														ng-show="registrationForm.locality.$dirty && registrationForm.locality.$error.pattern">
+														Please enter a valid Format (First letter should be capital ,
+														Characters and space only).
+													</span>
+
+												</div>
+											</div>
+										
+
+								</div>
+								<br>
+
+								<!--	<a class="btn btn-info col-2" ng-click="submitForm()">Submit</a>-->
+								<div align="center"><a><button type="button" class="btn  col-2" id="nava"
+											ng-click="submitForm()">Submit</button></a></div>
+
+							</div>
+
+							<div ng-hide="show">
+								<div align="center">
+									<h2>Final Preview </h2>
+									<p>Name: {{ reviewedPerson.firstname }}</p>
+
+									<p>Photo: <img ng-src="{{imagePreview}}" alt="Image Preview"
+											style="max-width: 80px; max-height: 100px;"> <!--<img id="uploadedImage2" name="im" src="" alt="Uploaded Image"
+											width="80px" height="100px">--> </p>
+									<p>Date of Birth: {{reviewedPerson.dob | date:'dd-MM-yyyy'}}</p>
+									<p>Age: {{reviewedPerson.age }}</p>
+									<p>Email: {{ reviewedPerson.email }}</p>
+									<p>Gender: {{reviewedPerson.gender}}</p>
+									<p>Mobile: {{reviewedPerson.mobileno}}</p>
+									<p>Marital Status: {{reviewedPerson.marritalstatus}}</p>
+									<p>Area: {{reviewedPerson.area}}</p>
+									<div ng-show="formData.area ==='Rural'">
+										<p>Dist: {{reviewedPerson.district}}</p>
+										<p>Block: {{reviewedPerson.block}}</p>
+										<p>Village: {{reviewedPerson.village}}</p>
+									</div>
+									<div ng-show="formData.area==='Urban'">
+										<p>Dist: {{reviewedPerson.district}}</p>
+										<p>City: {{reviewedPerson.city}}</p>
+										<p>Locality: {{reviewedPerson.locality}}</p>
+									</div>
+
+									<!-- Add more fields as needed -->
+									<a class="btn btn- col-2" id="nava" ng-click="closeReview()">Update</a>
+									<button type="submit" ng-click="check()" id="nava" class="btn btn- col-2">Final
+										Submit</button>
+								</div>
+							</div>
+
+						</form><br>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div ng-hide="fullpage" align="center">
+		<h3>List of Registered People</h3>
+		<hr>
+		<select ng-model="selectedMaritalStatus">
+			<option value="">All</option>
+			<option value="Single">Single</option>
+			<option value="Married">Married</option>
+			<option value="Divorced">Divorced</option>
+		</select>
+		<label>Global Search:</label>
+		<input type="text" ng-model="searchText">
+		<table class="table table-bordered mt-4">
+
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Date of Birth</th>
+					<th>Age</th>
+					<th>Email</th>
+					<th>Mobile No.</th>
+					<th>Marital Status</th>
+					<th>Gender</th>
+					<th>Area</th>
+					<th>District</th>
+					<th>Block</th>
+					<th>City</th>
+					<th>Village</th>
+					<th>Locality</th>
+					<th>Photo</th>
+					<!-- Add more table headers based on your data -->
+				</tr>
+			</thead>
+			<tbody>
+				<tr
+					ng-repeat="user in users | filter: { marritalstatus : selectedMaritalStatus } |filter: customFilter">
+					<td>{{ user.firstname }}</td>
+					<td>{{ user.dob | date:'dd-MM-yyyy' }}</td>
+					<td>{{ user.age }}</td>
+					<td>{{ user.email }}</td>
+					<td>{{ user.mobileno }}</td>
+					<td>{{ user.marritalstatus }}</td>
+					<td>{{user.gender}}</td>
+					<td>{{ user.area }}</td>
+					<td>{{user.district}}</td>
+					<td>{{user.block}}</td>
+					<td>{{user.city}}</td>
+					<td>{{user.village}}</td>
+					<td>{{user.locality}}</td>
+					<td>
+						<img ng-src="/api/images/{{ user.image.id }}" alt="User Image" width="50px" height="50px">
+					</td>
+
+					<!-- Add more table cells based on your data -->
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<script type="text/javascript">  
+if(performance.navigation.type == 2){
+   location.reload(true);
+}
+  </script>
+
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+		crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+		integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+		crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+		crossorigin="anonymous"></script>
+
+	<script src="main.js">	</script>
+
+	<script src="angular-route.min.js"></script>
+
+
+
+
+</body>
+
+</html>

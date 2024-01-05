@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="mymodule" ng-controller="mycontroller">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+	<!--<script src="scriptfile/script.js"></script>-->
+
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/sweetalert2/6.3.8/sweetalert2.min.css">
+	<script src="https://cdn.jsdelivr.net/sweetalert2/6.3.8/sweetalert2.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.6/ui-bootstrap-tpls.min.js"></script>
+
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+		integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+	<title>Marriage Registration</title>
+	<style>
+		
+		/* Add these styles directly in the head section */
+		.table {
+			width: 100%;
+			border-collapse: collapse;
+			margin-top: 20px;
+			
+		}
+
+		.error {
+			color: red;
+		}
+
+		.table th{
+			border: 1px solid rgb(0, 0, 0);
+			padding: 8px;
+			text-align: left;
+		}
+		.table td {
+			border: 1px solid rgb(0, 0, 0);
+			padding: 8px;
+			text-align: left;
+		}
+
+		.table th {
+			background-color: rgb(0, 0, 0,0.3);
+		}
+
+		.table img {
+			max-width: 100%;
+			height: auto;
+			border-radius: 50%;
+			/* Make the image circular if needed */
+		}
+
+		/* Optional: Add responsive styles for smaller screens */
+		@media (max-width: 767px) {
+
+			.table th,
+			.table td {
+				display: block;
+				width: 100%;
+				box-sizing: border-box;
+			}
+
+			.table th {
+				text-align: center;
+			}
+
+			.table img {
+				margin: 10px auto;
+				display: block;
+			}
+
+
+		}
+		
+    input.transparent-input{
+       background-color:rgb(255, 255, 255,0.6) !important;
+       border:none !important;
+    }
+ .container {
+       background-color:rgba(0,0,0,.5)
+      }
+      	#nava{
+			background-color: rgba(0, 0, 0, .8);
+			color: antiquewhite;
+		}
+	</style>
+
+
+
+</head>
+
+<body style="background-image: url('https://media.istockphoto.com/id/1364650429/vector/white-marble-vector-texture-gold-cracked-kintsugi-background-elegant-card.jpg?s=612x612&w=0&k=20&c=ZiEkunxRB3J6WbSUNom8XaiGId7eErv_Tv_nh2RoxAo=');background-repeat: no-repeat;
+  background-attachment: fixed;background-size: cover;  font-weight: 600; " >
+	
+
+	<div class="container-fluid p-0 m-0"
+		>
+		<nav class="navbar navbar-expand-lg navbar-dark bg- purple" id="nava">
+		<a class="navbar-brand" href="/">Registration</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+			aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav mr-auto">
+				<li class="nav-item active">
+					<a class="nav-link" href="/home">Home <span
+							class="sr-only">(current)</span></a>
+				</li>
+				<!--   <li class="nav-item">
+        <a class="nav-link" href="/public/register">Register</a>
+      </li>-->
+
+				<li class="nav-item">
+					<a class="nav-link" href="/table">Show Registration</a>
+				</li>
+
+				<!--  <li class="nav-item">
+        <a class="nav-link" href="" ng-click="toggletable2()">Registration Page</a>
+      </li>-->
+
+			</ul>
+			<!-- <form class="form-inline my-2 my-lg-0">
+      
+      <a class="btn btn-outline-dark my-2 my-sm-0" href="/logout">Logout</a>
+    </form>
+    -->
+		</div>
+
+	</nav>
+  <div ng-hide=true>	<input type="file" ng-model="imageFile" name="image" id="image23" style="display: none;"  accept="image/*"
+											onchange="angular.element(this).scope().updateImagePreview(this)"></div>
+	
+	<div  align="center">
+		<h3>List of Registered People</h3>
+		<hr> <!--<a class="btn btn-info col-2" ng-click="toggletable2()">Registration Page</a>-->
+		<select ng-model="selectedMaritalStatus">
+			<option value="">All</option>
+			<option value="Single">Single</option>
+			<option value="Married">Married</option>
+			<option value="Divorced">Divorced</option>
+		</select>
+		<label>Global Search:</label>
+		<input type="text" ng-model="searchText">
+		<table class="table table-bordered mt-4">
+
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Date of Birth</th>
+					<th>Age</th>
+					<th>Email</th>
+					<th>Mobile No.</th>
+					<th>Marital Status</th>
+					<th>Gender</th>
+					<th>Area</th>
+					<th>District</th>
+					<th>Block</th>
+					<th>City</th>
+					<th>Village</th>
+					<th>Locality</th>
+					<th>Photo</th>
+					<!-- Add more table headers based on your data -->
+				</tr>
+			</thead>
+			<tbody>
+				<tr
+					ng-repeat="user in users | filter: { marritalstatus : selectedMaritalStatus } |filter: customFilter">
+					<td>{{ user.firstname }}</td>
+					<td>{{ user.dob | date:'dd-MM-yyyy' }}</td>
+					<td>{{ user.age }}</td>
+					<td>{{ user.email }}</td>
+					<td>{{ user.mobileno }}</td>
+					<td>{{ user.marritalstatus }}</td>
+					<td>{{user.gender}}</td>
+					<td>{{ user.area }}</td>
+					<td>{{user.district}}</td>
+					<td>{{user.block}}</td>
+					<td>{{user.city}}</td>
+					<td>{{user.village}}</td>
+					<td>{{user.locality}}</td>
+					<td>
+						<img ng-src="/api/images/{{ user.image.id }}" alt="User Image" width="50px" height="50px">
+					</td>
+
+					<!-- Add more table cells based on your data -->
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+		crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+		integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+		crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+		crossorigin="anonymous"></script>
+
+	<script src="main.js">
+
+		/*var myApp = angular.module("mymodule", []);
+
+	var mycontroller = function ($scope, $http) {
+		$http.get('/api') // Update the endpoint based on your backend API
+			.then(function (response) {
+				$scope.users = response.data;
+			})
+			.catch(function (error) {
+				console.error('Error fetching data:', error);
+			});
+
+		$scope.searchText = " ";
+		$scope.customFilter = function (user) {
+			var searchText = $scope.searchText.toLowerCase();
+
+			// Check if the search text is present in any column
+			return Object.values(user).some(function (value) {
+				return String(value).toLowerCase().includes(searchText);
+			});
+		};
+		// $scope.show=true;
+		$scope.toggleContent453 = function () {
+			//   $scope.show =false;
+		};
+		$scope.show = true;
+
+
+		$scope.formData = {}; // Object to store form data
+		$scope.showReviewModal = false;
+		$scope.fullpage = true;
+
+		$scope.toggletable = function () {
+			$scope.fullpage = false;
+
+
+		}
+		$scope.toggletable2 = function () {
+			$scope.fullpage = true;
+
+
+		}
+
+
+		$scope.submitForm = function () {
+
+			swal({
+				title: 'Are you sure?',
+				text: 'Do you want to submit the form?',
+				icon: 'question',
+				showCancelButton: true,
+				confirmButtonColor: '#3085d6',
+				cancelButtonColor: '#d33',
+				confirmButtonText: 'Yes, submit it!'
+			})
+			$scope.show = false;
+
+			// Show the review modal
+			$scope.showReviewModal = true;
+		};
+
+		$scope.closeReview = function () {
+			// Close the review modal
+			$scope.showReviewModal = false;
+			$scope.show = true;
+
+
+		};
+
+		$scope.confirmSubmit = function () {
+			swal({
+				title: 'Success!',
+				text: 'Form submitted successfully!',
+				type: 'success'
+			});
+			// Perform any final submission logic if needed
+			// For this example, let's simulate a successful submission
+			console.log('Form submitted successfully', $scope.formData);
+			$http.post('/savedetail', $scope.formData)
+				.then(function (response) {
+					console.log('Server response:', response.data);
+				})
+				.catch(function (error) {
+					console.error('Error:', error);
+				});
+
+
+			$scope.show = true;
+			$scope.formData = null;
+			// Close the review modal
+			$scope.showReviewModal = false;
+		};
+		$scope.res = {};
+		$scope.button = false;
+		$scope.changeb = function () {
+			$scope.button = true;
+
+		}
+		$scope.uploadedImage = null;
+		document.getElementById('image').addEventListener('change', function (event) {
+			uploadedImage = document.getElementById('uploadedImage');
+			uploadedImage.src = URL.createObjectURL(event.target.files[0]);
+		});
+		$scope.uploadedImage2 = null;
+		document.getElementById('image').addEventListener('change', function (event) {
+			uploadedImage2 = document.getElementById('uploadedImage2');
+			uploadedImage2.src = URL.createObjectURL(event.target.files[0]);
+		});
+		$scope.photo = false;
+		var img = {
+			photo: "/images/pic.png"
+		};
+		var tech = [
+			{name: "c#", likes: 0, dislikes: 0}
+		];
+		$scope.tech = tech;
+		$scope.inlike = function (techno) {
+			techno.likes++;
+		};
+		$scope.indlike = function (techno) {
+			techno.dislikes++;
+		};
+		$scope.img = img;
+		$scope.message = "angularjs tutorial";
+		$scope.showExtraFieldurban = false;
+		$scope.showExtraFieldrural = false;
+
+		$scope.showContent = false;
+
+		$scope.toggleContent2 = function () {
+			$scope.showExtraFieldrural = false;
+			$scope.showExtraFieldurban = true;
+		};
+		$scope.toggleContent = function () {
+			$scope.showExtraFieldurban = false;
+			$scope.showExtraFieldrural = true;
+		};
+
+		$scope.showimg = function () {
+			$scope.imgg = true;
+		}
+
+		$scope.popup = function () {
+			$scope.imgg = true;
+		}
+
+
+
+
+
+
+		$scope.calculateAge = function () {
+			// Calculate age logic here
+			var today = new Date();
+			var birthDate = new Date($scope.formData.dob);
+			var age = today.getFullYear() - birthDate.getFullYear();
+
+			// Check if birthday has occurred this year
+			if (today.getMonth() < birthDate.getMonth() || (today.getMonth() === birthDate.getMonth() && today.getDate() < birthDate.getDate())) {
+				age--;
+			}
+
+			$scope.formData.age = age;
+		};
+
+		$scope.districts = districts;
+		$scope.selectedDistrict = null;
+		$scope.selectedBlock = null;
+		$scope.selectedVillage = null;
+
+
+		$scope.blockDisabled = true;
+		$scope.villageDisabled = true;
+
+		$scope.selectDistrict = function () {
+			$scope.blockDisabled = false;
+			$scope.selectedBlock = null;
+			$scope.selectedVillage = null;
+		};
+
+
+		$scope.selectBlock = function () {
+			$scope.villageDisabled = false;
+			$scope.selectedVillage = null;
+		};
+	};
+	myApp.controller("mycontroller", mycontroller);
+	var districts = [
+		{
+			name: 'District 1',
+			blocks: [
+				{name: 'Block 1.1', villages: ['Village 1.1.1', 'Village 1.1.2']},
+				{name: 'Block 1.2', villages: ['Village 1.2.1', 'Village 1.2.2']}
+			]
+		},
+		{
+			name: 'District 2',
+			blocks: [
+				{name: 'Block 2.1', villages: ['Village 2.1.1', 'Village 2.1.2']},
+				{name: 'Block 2.2', villages: ['Village 2.2.1', 'Village 2.2.2']}
+			]
+		}
+	];*/
+	</script>
+
+	<script src="angular-route.min.js"></script>
+
+
+
+
+</body>
+
+</html>
